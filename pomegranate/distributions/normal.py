@@ -292,6 +292,7 @@ class Normal(Distribution):
 		elif self.covariance_type in ['diag', 'sphere']:
 			covs = self._xxw_sum / self._w_sum - \
 				self._xw_sum ** 2.0 / self._w_sum ** 2.0
+			covs = torch.clamp(covs, min=1e-8)  # handle the one sample case
 			if self.covariance_type == 'sphere':
 				covs = covs.mean(dim=-1)
 
